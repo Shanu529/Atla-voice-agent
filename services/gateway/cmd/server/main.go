@@ -18,7 +18,7 @@ func main() {
     r.Use(middlewares.Logger())
     r.Use(gin.Recovery())
 
-	// Liveness: is the process alive?
+	// Liveness: is the process alive or not?
 	r.GET("/healthy", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"status": "alive"})
 	})
