@@ -41,6 +41,7 @@ func main() {
 			})
 			return
 		}
+		
 		defer resp.Body.Close()
 
 		body, err := io.ReadAll(resp.Body)
