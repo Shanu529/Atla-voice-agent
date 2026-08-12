@@ -1,6 +1,4 @@
 package clients
-package clients
-
 import (
 	"context"
 	"fmt"
