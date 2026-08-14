@@ -5,6 +5,7 @@ import (
 	"github.com/Shanu529/atla-voice-agent/services/gateway/internal/handlers"
 	"github.com/Shanu529/atla-voice-agent/services/gateway/internal/middlewares"
 	"github.com/gin-gonic/gin"
+	"github.com/Shanu529/atla-voice-agent/services/gateway/internal/config"
 )
 
 func main() {
@@ -15,10 +16,11 @@ func main() {
 	r.Use(gin.Recovery())
 	r.Use(middlewares.Logger())
 
+	cfg := config.Load()
 
 	// create agent client to communicate with agent service
 	agentClient := clients.NewAgentClient(
-		"http://localhost:8081",
+		cfg.AgentServiceURL,
 	)
 
 	// create agent handler to hande requests from gateway to agent service

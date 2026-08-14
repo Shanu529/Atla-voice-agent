@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"time"
 )
 
 type AgentClient struct {
@@ -14,9 +15,9 @@ type AgentClient struct {
 func NewAgentClient(baseURL string) *AgentClient {
 	return &AgentClient{
 		baseURL: baseURL,
-
-		// We will configure timeout properly later.
-		httpClient: &http.Client{},
+		httpClient: &http.Client{
+			Timeout: 5 * time.Second,
+		},
 	}
 }
 
