@@ -1,22 +1,33 @@
-
 package main
-import (
-	"net/http"
 
-	"github.com/Shanu529/atla-voice-agent/services/gateway/internal/middlewares"
+
+import (
+	"github.com/Shanu529/atla-voice-agent/services/agent-service/internal/handlers"
+	"github.com/Shanu529/atla-voice-agent/services/agent-service/internal/services"
+
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+
 	r := gin.New()
 
-	r.Use(gin.Recovery())
-	r.Use(middlewares.Logger())
+	// Recover from unexpected panics
+	// instead of crashing the server.
 
-	// create  dummy response from agent service
-	r.GET("/hello", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"message": "Hello, World! from Golang"})
-	})
+	r.Use(gin.Recovery())
+
+	// CREATE AGENT SERVICE
+	agentService := services.NewAgentService()
+
+	// CREATE AGENT HANDLER
+	agentHandler := handlers.NewAgentHandler(
+		agentService,
+	)
+	r.GET(
+		"/hello",
+		agentHandler.Hello,
+	)
 
 	r.Run(":8081")
 }

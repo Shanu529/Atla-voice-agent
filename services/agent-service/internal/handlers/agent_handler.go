@@ -1,10 +1,12 @@
 package handlers
+
 import (
 	"net/http"
-
-	"github.com/Shanu529/atla-voice-agent/services/agent/internal/services"
+	"github.com/Shanu529/atla-voice-agent/services/agent-service/internal/services"
 	"github.com/gin-gonic/gin"
 )
+
+
 // AgentHandler handles HTTP requests
 // related to the Agent.
 
