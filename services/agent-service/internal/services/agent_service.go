@@ -12,7 +12,7 @@ package services
 // - Planning
 // - Agent reasoning
 
-type AgentService struct {}
+type AgentService struct{}
 
 // NewAgentService creates a new AgentService.
 //
@@ -20,17 +20,13 @@ type AgentService struct {}
 // Go doesn't have a special "constructor" keyword
 // like some other languages.
 
-
 func NewAgentService() *AgentService {
 	return &AgentService{} // return a pointer to a new agent servicee instance
 }
 
-
-
 // Hello contains the actual business logic
 // for our first Agent operation.
 
-func (s *AgentService) hello() string{
+func (s *AgentService) Hello() string {
 	return "Hello from the Agent Service!"
 }
-
