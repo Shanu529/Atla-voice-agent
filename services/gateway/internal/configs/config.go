@@ -17,3 +17,4 @@ func Load() Config {
 		AgentServiceURL: agentURL,
 	}
 }
+
