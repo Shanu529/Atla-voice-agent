@@ -2,10 +2,11 @@ package handlers
 
 import (
 	"net/http"
+
+	"github.com/Shanu529/atla-voice-agent/services/agent-service/internal/models"
 	"github.com/Shanu529/atla-voice-agent/services/agent-service/internal/services"
 	"github.com/gin-gonic/gin"
 )
-
 
 // AgentHandler handles HTTP requests
 // related to the Agent.
@@ -47,4 +48,26 @@ func (h *AgentHandler) Health(c *gin.Context){
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
 	})
+}
+
+func (h *AgentHandler) chat(c *gin.Context) {
+	// create a variable to hold the request data
+	var request  models.ChatRequest
+
+	// convert JSON into go Request struct
+	if err := c.ShouldBindJSON(&request); err != nil{
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "message is required",
+		})
+
+		return
+	}
+
+	// Pass the request to the business logic.
+	response := h.agentService.Chat(request)
+
+	// return agent response as a json res
+	c.JSON(http.StatusOK, response)
+
+
 }
