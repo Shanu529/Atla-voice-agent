@@ -23,11 +23,27 @@ func main() {
 	agentHandler := handlers.NewAgentHandler(
 		agentService,
 	)
+
 	r.GET(
 		"/hello",
 		agentHandler.Hello,
 	)
 	r.GET("/Health", agentHandler.Health)
+
+
+	//  Register the real Agent chat endpoint.
+	//
+	// POST /chat
+	//
+	// The request will go:
+	//
+	// HTTP
+	//   ↓
+	// AgentHandler
+	//   ↓
+	// AgentService
+	r.POST("/chat", agentHandler.Chat)
+
 
 	r.Run(":8081")
 }

@@ -50,7 +50,7 @@ func (h *AgentHandler) Health(c *gin.Context){
 	})
 }
 
-func (h *AgentHandler) chat(c *gin.Context) {
+func (h *AgentHandler) Chat(c *gin.Context) {
 	// create a variable to hold the request data
 	var request  models.ChatRequest
 
