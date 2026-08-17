@@ -1,5 +1,7 @@
 package services
 
+import "github.com/Shanu529/atla-voice-agent/services/agent-service/internal/models"
+
 // AgentService contains the business logic
 // of our AI Agent.
 //
@@ -29,4 +31,13 @@ func NewAgentService() *AgentService {
 
 func (s *AgentService) Hello() string {
 	return "Hello from the Agent Service!"
+}
+
+func (s *AgentService) Chat( // this is a method of the AgentService struct and chat() it is mehtod beloging it
+	request models.ChatRequest,
+) models.ChatResponse {
+
+	return models.ChatResponse{
+		Reply: "Agent received: " + request.Message,
+	}
 }
