@@ -41,3 +41,10 @@ func (h *AgentHandler) Hello(c *gin.Context) {
 		"reply": reply,
 	})
 }
+
+func (h *AgentHandler) Health(c *gin.Context){
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": "ok",
+	})
+}

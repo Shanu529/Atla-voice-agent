@@ -1,6 +1,5 @@
 package main
 
-
 import (
 	"github.com/Shanu529/atla-voice-agent/services/agent-service/internal/handlers"
 	"github.com/Shanu529/atla-voice-agent/services/agent-service/internal/services"
@@ -28,6 +27,7 @@ func main() {
 		"/hello",
 		agentHandler.Hello,
 	)
+	r.GET("/Health", agentHandler.Health)
 
 	r.Run(":8081")
 }
