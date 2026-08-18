@@ -17,20 +17,20 @@ func NewAgentHandler(agentClient *clients.AgentClient) *AgentHandler {
 	}
 }
 
-func (h *AgentHandler) Hello(c *gin.Context) {
-
-	body, statusCode, err := h.agentClient.Hello(c.Request.Context())
-
+// and forwards it to the Agent Service.
+func (h *AgentHandler) Chat(c *gin.Context) {
+	responseBody, statusCode, err := h.agentClient.Chat(c.Request.Context())
 	if err != nil {
 		c.JSON(http.StatusBadGateway, gin.H{
-			"error": "Agent service unavailable",
+			"error": "agent service unavailable",
 		})
 		return
 	}
 
+	// Return the Agent response to the user.
 	c.Data(
 		statusCode,
 		"application/json",
-		body,
+		responseBody,
 	)
 }

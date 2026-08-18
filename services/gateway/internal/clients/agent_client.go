@@ -21,7 +21,9 @@ func NewAgentClient(baseURL string) *AgentClient {
 	}
 }
 
-func (a *AgentClient) Hello(ctx context.Context) ([]byte, int, error) {
+// chat send to the agent service the chat request and returns the response.
+
+func (a *AgentClient) Chat(ctx context.Context) ([]byte, int, error) {
 
 	url := fmt.Sprintf("%s/hello", a.baseURL)
 

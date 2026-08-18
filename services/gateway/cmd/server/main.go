@@ -30,7 +30,7 @@ func main() {
 
 	r.GET(
 		"/api/agent/hello",
-		agentHandler.Hello,
+		agentHandler.Chat,
 	)
 	
 	r.Run(":8080")

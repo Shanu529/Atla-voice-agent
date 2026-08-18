@@ -38,9 +38,9 @@ func main() {
 	// The request will go:
 	//
 	// HTTP
-	//   ↓
+	//   
 	// AgentHandler
-	//   ↓
+	//   
 	// AgentService
 	r.POST("/chat", agentHandler.Chat)
 
