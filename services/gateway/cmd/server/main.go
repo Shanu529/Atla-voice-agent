@@ -28,8 +28,8 @@ func main() {
 		agentClient,
 	)
 
-	r.GET(
-		"/api/agent/hello",
+	r.POST(
+		"/api/agent/chat",
 		agentHandler.Chat,
 	)
 	

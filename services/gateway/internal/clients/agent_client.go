@@ -1,5 +1,7 @@
 package clients
+
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"io"
@@ -21,23 +23,36 @@ func NewAgentClient(baseURL string) *AgentClient {
 	}
 }
 
-// chat send to the agent service the chat request and returns the response.
+// Chat sends the user's chat request
+// to the Agent Service and returns its response.
+func (a *AgentClient) Chat(
+	ctx context.Context,
+	body []byte,
+) ([]byte, int, error) {
 
-func (a *AgentClient) Chat(ctx context.Context) ([]byte, int, error) {
+	// Agent's real chat endpoint.
+	url := fmt.Sprintf("%s/chat", a.baseURL)
 
-	url := fmt.Sprintf("%s/hello", a.baseURL)
-
+	// Create POST request with the user's
+	// JSON body.
 	req, err := http.NewRequestWithContext(
 		ctx,
-		http.MethodGet,
+		http.MethodPost,
 		url,
-		nil,
+		bytes.NewReader(body),
 	)
 
 	if err != nil {
 		return nil, 0, err
 	}
 
+	// Tell Agent that we're sending JSON.
+	req.Header.Set(
+		"Content-Type",
+		"application/json",
+	)
+
+	// Send request to Agent Service.
 	resp, err := a.httpClient.Do(req)
 
 	if err != nil {
@@ -46,11 +61,12 @@ func (a *AgentClient) Chat(ctx context.Context) ([]byte, int, error) {
 
 	defer resp.Body.Close()
 
-	body, err := io.ReadAll(resp.Body)
+	// Read Agent's response.
+	responseBody, err := io.ReadAll(resp.Body)
 
 	if err != nil {
 		return nil, 0, err
 	}
 
-	return body, resp.StatusCode, nil
+	return responseBody, resp.StatusCode, nil
 }

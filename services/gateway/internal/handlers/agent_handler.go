@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"io"
 	"net/http"
 
 	"github.com/Shanu529/atla-voice-agent/services/gateway/internal/clients"
@@ -17,9 +18,26 @@ func NewAgentHandler(agentClient *clients.AgentClient) *AgentHandler {
 	}
 }
 
+// Chat receives the user's chat request
 // and forwards it to the Agent Service.
 func (h *AgentHandler) Chat(c *gin.Context) {
-	responseBody, statusCode, err := h.agentClient.Chat(c.Request.Context())
+
+	// Read the JSON body sent by the user.
+	body, err := io.ReadAll(c.Request.Body)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid request body",
+		})
+		return
+	}
+
+	// Send the user's request to Agent Service.
+	responseBody, statusCode, err := h.agentClient.Chat(
+		c.Request.Context(),
+		body,
+	)
+
 	if err != nil {
 		c.JSON(http.StatusBadGateway, gin.H{
 			"error": "agent service unavailable",
@@ -27,7 +45,7 @@ func (h *AgentHandler) Chat(c *gin.Context) {
 		return
 	}
 
-	// Return the Agent response to the user.
+	// Return Agent's response to the user.
 	c.Data(
 		statusCode,
 		"application/json",
