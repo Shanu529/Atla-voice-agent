@@ -25,3 +25,34 @@ func NewAIClient(baseURL string) *AIClient{
 		},
 	}
 }
+
+// chat send to ai engine service and get the response
+
+func (c *AIClient) Chat(ctx context.Context, body []byte) ([]byte, int, error) {
+	url := fmt.Sprintf("%s/chat", c.baseURL)
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewReader(body))
+	if err != nil {
+		return nil, 0, fmt.Errorf("failed to create request: %w", err)
+	}
+
+	req.Header.Set(
+		"Content-Type",
+		"application/json",
+	)
+
+	resp, err := c.httpClient.Do(req)
+
+	if err != nil {
+		return nil, 0, fmt.Errorf("failed to send request: %w", err)
+	}
+
+	defer resp.Body.Close()
+
+	responseBody, err := io.ReadAll(resp.Body)
+
+	if err != nil{
+		return nil, 0, fmt.Errorf("failed to read response body: %w", err)	
+	}
+	return responseBody, resp.StatusCode, nil
+}
