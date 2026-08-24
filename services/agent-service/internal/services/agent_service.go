@@ -1,6 +1,10 @@
 package services
 
-import "github.com/Shanu529/atla-voice-agent/services/agent-service/internal/models"
+import (
+	"context"
+	"github.com/Shanu529/atla-voice-agent/services/agent-service/internal/clients"
+	"github.com/Shanu529/atla-voice-agent/services/agent-service/internal/models"
+)
 
 // AgentService contains the business logic
 // of our AI Agent.
@@ -14,7 +18,11 @@ import "github.com/Shanu529/atla-voice-agent/services/agent-service/internal/mod
 // - Planning
 // - Agent reasoning
 
-type AgentService struct{}
+// it will contains busness logic of our AI Agent
+
+type AgentService struct {
+	aiClient *clients.AIClient
+}
 
 // NewAgentService creates a new AgentService.
 //
@@ -22,22 +30,39 @@ type AgentService struct{}
 // Go doesn't have a special "constructor" keyword
 // like some other languages.
 
-func NewAgentService() *AgentService {
-	return &AgentService{} // return a pointer to a new agent servicee instance
+func NewAgentService(aiClient *clients.AIClient) *AgentService {
+
+	return &AgentService{
+		aiClient: aiClient,
+	} // return a pointer to a new agent servicee instance
 }
 
-// Hello contains the actual business logic
-// for our first Agent operation.
+// send user's msg to ai engine service and get the response
+func (s *AgentService) Chat(ctx context.Context, request models.ChatRequest) (models.ChatResponse, error) {
 
-func (s *AgentService) Hello() string {
-	return "Hello from the Agent Service!"
-}
-
-func (s *AgentService) Chat( // this is a method of the AgentService struct and chat() it is mehtod beloging it
-	request models.ChatRequest,
-) models.ChatResponse {
+	// TODO:
+	// Convert request to JSON and send it
+	// to the AI Engine
 
 	return models.ChatResponse{
-		Reply: "Agent received: " + request.Message,
-	}
+		Reply: "Ai Engine not connected yet. Please try again later.",
+	}, nil
 }
+
+
+
+// // Hello contains the actual business logic
+// // for our first Agent operation.
+
+// func (s *AgentService) Hello() string {
+// 	return "Hello from the Agent Service!"
+// }
+
+// func (s *AgentService) Chat( // this is a method of the AgentService struct and chat() it is mehtod beloging it
+// 	request models.ChatRequest,
+// ) models.ChatResponse {
+
+// 	return models.ChatResponse{
+// 		Reply: "Agent received: " + request.Message,
+// 	}
+// }
