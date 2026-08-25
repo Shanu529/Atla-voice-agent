@@ -2,54 +2,64 @@ package services
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
+
 	"github.com/Shanu529/atla-voice-agent/services/agent-service/internal/clients"
 	"github.com/Shanu529/atla-voice-agent/services/agent-service/internal/models"
 )
-
-// AgentService contains the business logic
-// of our AI Agent.
-//
-// Right now the logic is very simple.
-// Later this will contain things like:
-//
-// - LLM calls
-// - Memory
-// - Tool execution
-// - Planning
-// - Agent reasoning
-
-// it will contains busness logic of our AI Agent
 
 type AgentService struct {
 	aiClient *clients.AIClient
 }
 
-// NewAgentService creates a new AgentService.
-//
-// This is called a constructor-style function.
-// Go doesn't have a special "constructor" keyword
-// like some other languages.
-
 func NewAgentService(aiClient *clients.AIClient) *AgentService {
-
 	return &AgentService{
 		aiClient: aiClient,
-	} // return a pointer to a new agent servicee instance
+	}
 }
 
-// send user's msg to ai engine service and get the response
-func (s *AgentService) Chat(ctx context.Context, request models.ChatRequest) (models.ChatResponse, error) {
+// Chat sends the user's message to the AI Engine.
+func (s *AgentService) Chat(
+	ctx context.Context,
+	request models.ChatRequest,
+) (models.ChatResponse, error) {
 
-	// TODO:
-	// Convert request to JSON and send it
-	// to the AI Engine
+	// Convert ChatRequest into JSON.
+	requestBody, err := json.Marshal(request)
 
-	return models.ChatResponse{
-		Reply: "Ai Engine not connected yet. Please try again later.",
-	}, nil
+	if err != nil {
+		return models.ChatResponse{}, err
+	}
+
+	// Send the request to the Python AI Engine.
+	responseBody, statusCode, err := s.aiClient.Chat(
+		ctx,
+		requestBody,
+	)
+
+	if err != nil {
+		return models.ChatResponse{}, err
+	}
+
+	// AI Engine should return a successful response.
+	if statusCode < 200 || statusCode >= 300 {
+		return models.ChatResponse{}, fmt.Errorf(
+			"AI engine returned status %d",
+			statusCode,
+		)
+	}
+
+	// Convert AI Engine JSON response
+	// back into ChatResponse.
+	var response models.ChatResponse
+
+	if err := json.Unmarshal(responseBody, &response); err != nil {
+		return models.ChatResponse{}, err
+	}
+
+	return response, nil
 }
-
-
 
 // // Hello contains the actual business logic
 // // for our first Agent operation.
