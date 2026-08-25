@@ -1,9 +1,11 @@
+
+
 package main
 
 import (
+	"github.com/Shanu529/atla-voice-agent/services/agent-service/internal/clients"
 	"github.com/Shanu529/atla-voice-agent/services/agent-service/internal/handlers"
 	"github.com/Shanu529/atla-voice-agent/services/agent-service/internal/services"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,32 +18,24 @@ func main() {
 
 	r.Use(gin.Recovery())
 
-	// CREATE AGENT SERVICE
-	agentService := services.NewAgentService()
+
+	
+	// CREATE AGENT CLIENT
+
+	aiClient := clients.NewAIClient(
+		"http://localhost:8000",
+	)
+
+	// create agent serviec to communicate with ai engine
+	agentService := services.NewAgentService(
+		aiClient,
+	)
 
 	// CREATE AGENT HANDLER
 	agentHandler := handlers.NewAgentHandler(
 		agentService,
 	)
-
-	r.GET(
-		"/hello",
-		agentHandler.Hello,
-	)
-	r.GET("/Health", agentHandler.Health)
-
-
-	//  Register the real Agent chat endpoint.
-	//
-	// POST /chat
-	//
-	// The request will go:
-	//
-	// HTTP
-	//   
-	// AgentHandler
-	//   
-	// AgentService
+	
 	r.POST("/chat", agentHandler.Chat)
 
 

@@ -3,3 +3,37 @@
 
 ChatRequest ----> Message---> AgentService.Chat() --- reply---> ChatREsponse
     
+
+Handler
+   |
+   |
+AgentService.Chat(request)
+   |
+   |
+Response
+
+
+// but now flow is...//
+
+Handler
+   │
+   │ context + request
+   |
+AgentService.Chat(
+    ctx,
+    request,
+)
+
+   │
+   |--- response
+   │
+   |---- error
+
+
+AgentHandler
+      |
+AgentService
+      |
+AIClient
+      |
+Python AI Engine
