@@ -18,7 +18,7 @@ class ChatRequest(BaseModel):
     message : str
 
 class ChatResponse(BaseModel):
-    response : str
+    Reply : str
 
 
 @app.get("/health")
@@ -29,8 +29,10 @@ def healthy():
 
 
 
-# @app.post("/chat", response_model=ChatResponse)
-# def chat(request : ChatRequest):
-#     return ChatResponse(
-#         response = f"AI engine received  : {request.message}"
-#     )
+@app.post("/chat", response_model=ChatResponse)
+def chat_endpoint(request : ChatRequest):
+
+    reply = chat(request.message)
+    return ChatResponse(
+        Reply = reply
+    )
