@@ -23,3 +23,10 @@ builder.add_edge(START, "agent")
 builder.add_edge("agent", END)
 
 graph = builder.compile()
+
+def run_graph(message : str) -> str:
+    result = graph.invoke({
+        "message" : message,
+        "response ": "",
+    })
+    return result["response"]
