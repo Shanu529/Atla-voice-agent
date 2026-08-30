@@ -6,6 +6,7 @@ from pydantic import BaseModel
 
 from app.agent import run_agent
 
+from app.graph import graph
 load_dotenv()
 
 
@@ -29,9 +30,13 @@ def healthy():
 
 
 @app.post("/chat", response_model=ChatResponse)
-def chat_endpoint(request : ChatRequest):
+def chat_endpoint(request: ChatRequest):
 
-    reply = run_agent(request.message)
+    result = graph.invoke({
+        "message": request.message,
+        "response": "",
+    })
+
     return ChatResponse(
-        reply = reply
+        reply=result["response"],
     )
