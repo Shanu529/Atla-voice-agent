@@ -1,6 +1,5 @@
 import os
 import json
-import inspect
 
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -138,6 +137,41 @@ tool_definitions = [
             },
         },
     },
+    {
+        "type": "function",
+        "function": {
+            "name": "search_web",
+            "description": "Search the internet for current information.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "The search query.",
+                    }
+                },
+                "required": ["query"],
+            },
+        },
+    },
+{
+    "type": "function",
+    "function": {
+        "name": "create_folder",
+        "description": "Create a folder on the computer.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Path of the folder to create.",
+                }
+            },
+            "required": ["path"],
+        },
+    },
+},
+
 ]
 
 
@@ -147,9 +181,16 @@ def chat(message: str) -> str:
         {
             "role": "system",
             "content": (
-                "You are Atla, a desktop AI assistant. "
-                "Use available tools whenever the user asks you to perform "
-                "an action. You may use multiple tools when necessary. "
+                "You are Atla, a desktop AI assistant.\n"
+                "Use search_web when the user asks to search, research, "
+                "look up, or find information on the internet.\n"
+                "Use open_website ONLY when the user explicitly asks you "
+                "to open or visit a website.\n"
+                "Use open_application ONLY when the user explicitly asks "
+                "to open or launch an application.\n"
+                "Use filesystem tools when the user asks you to work with "
+                "files or folders.\n"
+                "You may use multiple tools when necessary.\n"
                 "Never claim an action succeeded unless the tool reports success."
             ),
         },
@@ -209,71 +250,3 @@ def chat(message: str) -> str:
             )
 
 
-
-            
-# def chat(message: str) -> str:
-
-    messages = [
-        {
-            "role": "system",
-            "content": (
-                "You are Atla, a desktop AI assistant. "
-                "You can control the user's computer using the available tools. "
-                "When the user asks you to open an application, website, read a file, "
-                "create a file, get system information, or perform another available "
-                "action, USE THE APPROPRIATE TOOL instead of explaining how the user "
-                "can do it manually. "
-                "Never claim an action succeeded unless the tool actually succeeds."
-            )
-        },
-        {
-            "role": "user",
-            "content": message,
-        },
-    ]
-
-    response = client.chat.completions.create(
-        model=MODEL,
-        messages=messages,
-        tools=tool_definitions,
-        tool_choice="auto",
-    )
-
-    assistant_message = response.choices[0].message
-
-    if not assistant_message.tool_calls:
-        return assistant_message.content or ""
-
-    messages.append(assistant_message)
-
-    for tool_call in assistant_message.tool_calls:
-
-        tool_name = tool_call.function.name
-        arguments = json.loads(tool_call.function.arguments or "{}")
-
-        tool = TOOLS.get(tool_name)
-
-        if not tool:
-            result = f"Unknown tool: {tool_name}"
-
-        else:
-            try:
-                result = tool(**arguments)
-            except Exception as e:
-                result = f"Tool failed: {e}"
-
-        messages.append(
-            {
-                "role": "tool",
-                "tool_call_id": tool_call.id,
-                "content": str(result),
-            }
-        )
-
-    final_response = client.chat.completions.create(
-        model=MODEL,
-        messages=messages,
-        tools=tool_definitions,
-    )
-
-    return final_response.choices[0].message.content or ""

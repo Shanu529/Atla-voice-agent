@@ -1,53 +1,59 @@
-
-
 from pathlib import Path
 
 
-def list_directory(path: str = ".") -> str:
+def list_directory(path: str) -> str:
+    folder = Path(path).expanduser()
 
-    directory = Path(path)
+    if not folder.exists():
+        return f"Directory does not exist: {path}"
 
-    if not directory.exists():
-        return f"Directory {path} does not exist."
+    if not folder.is_dir():
+        return f"Not a directory: {path}"
 
-    if not directory.is_dir():
-        return f"{path} is not a directory."
+    items = []
 
-    files = [item.name for item in directory.iterdir()]
+    for item in folder.iterdir():
+        kind = "DIR" if item.is_dir() else "FILE"
+        items.append(f"{kind}: {item.name}")
 
-    if not files:
-        return "The directory is empty."
+    return "\n".join(items) if items else "Directory is empty."
 
-    return "\n".join(files)
+
+def create_folder(path: str) -> str:
+    folder = Path(path).expanduser()
+
+    try:
+        folder.mkdir(parents=True, exist_ok=True)
+        return f"Folder created: {folder}"
+
+    except Exception as e:
+        return f"Failed to create folder: {e}"
+
+
+def create_file(path: str) -> str:
+    file = Path(path).expanduser()
+
+    try:
+        file.parent.mkdir(parents=True, exist_ok=True)
+        file.touch(exist_ok=True)
+
+        return f"File created: {file}"
+
+    except Exception as e:
+        return f"Failed to create file Please try again : {e}"
 
 
 def read_file(path: str) -> str:
-
-    file = Path(path)
+    file = Path(path).expanduser()
 
     if not file.exists():
-        return f"File {path} does not exist."
+        return f"File does not exist: {path}"
 
     if not file.is_file():
-        return f"{path} is not a file."
+        return f"Not a file: {path}"
 
     try:
         return file.read_text(encoding="utf-8")
 
     except Exception as e:
-        return f"Could not read file: {e}"
-
-
-def create_file(path: str) -> str:
-
-    file = Path(path)
-
-    if file.exists():
-        return f"File {path} already exists."
-
-    try:
-        file.touch()
-        return f"Created {path}."
-
-    except Exception as e:
-        return f"Could not create file: {e}"
+        return f"Failed to read file: {e}"

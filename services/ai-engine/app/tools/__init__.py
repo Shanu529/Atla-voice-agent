@@ -23,6 +23,15 @@ from app.tools.system import (
     get_system_info,
 )
 
+from app.tools.web import search_web
+
+
+from app.tools.files import (
+    list_directory,
+    create_folder,
+    read_file,
+)
+
 
 TOOLS = {
     "get_current_time": get_current_time,
@@ -33,4 +42,8 @@ TOOLS = {
     "read_file": read_file,
     "create_file": create_file,
     "get_system_info": get_system_info,
+    "search_web": search_web,
+    "list_directory": list_directory,
+    "create_folder": create_folder,
+    "read_file": read_file,
 }
