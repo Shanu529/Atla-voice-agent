@@ -40,7 +40,7 @@ def create_file(path: str) -> str:
         return f"File created: {file}"
 
     except Exception as e:
-        return f"Failed to create file Please try again : {e}"
+        return f"Failed to create file : {e}"
 
 
 def read_file(path: str) -> str:
