@@ -56,4 +56,4 @@ def read_file(path: str) -> str:
         return file.read_text(encoding="utf-8")
 
     except Exception as e:
-        return f"Failed to read file: {e}"
+        return f"Failed to read file : {e}"
