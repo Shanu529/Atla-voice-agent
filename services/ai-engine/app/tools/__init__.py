@@ -29,7 +29,9 @@ from app.tools.web import search_web
 from app.tools.files import (
     list_directory,
     create_folder,
+    create_file,
     read_file,
+    get_special_folder,
 )
 
 
@@ -46,4 +48,5 @@ TOOLS = {
     "list_directory": list_directory,
     "create_folder": create_folder,
     "read_file": read_file,
+    "get_special_folder": get_special_folder,
 }

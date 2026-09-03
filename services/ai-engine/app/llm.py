@@ -172,6 +172,24 @@ tool_definitions = [
     },
 },
 
+{
+    "type": "function",
+    "function": {
+        "name": "get_special_folder",
+        "description": "Resolve a common folder such as Downloads, Desktop, Documents, Pictures, or Videos.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "folder": {
+                    "type": "string",
+                    "description": "Folder name such as downloads, desktop, documents, pictures, or videos.",
+                }
+            },
+            "required": ["folder"],
+        },
+    },
+},
+
 ]
 
 

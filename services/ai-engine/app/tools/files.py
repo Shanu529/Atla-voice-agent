@@ -57,3 +57,29 @@ def read_file(path: str) -> str:
 
     except Exception as e:
         return f"Failed to read file : {e}"
+
+
+
+def get_special_folder(folder : str) -> str:
+
+    home = Path.home()
+
+    folders = {
+        "home": home,
+        "desktop": home / "Desktop",
+        "documents": home / "Documents",
+        "downloads": home / "Downloads",
+        "pictures": home / "Pictures",
+        "music": home / "Music",
+        "videos": home / "Videos",
+    }
+
+    path = folders.get(folder.lower())
+
+    if not path:
+        return f"Unknown special folder: {folder}"
+
+    if not path.exists():
+        return f"special folder does not exist: {path}"
+
+    return str(path)
