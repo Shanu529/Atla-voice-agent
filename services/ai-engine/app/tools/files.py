@@ -95,4 +95,16 @@ def write_file(path: str, content: str) -> str:
         return f"File written successfully: {file}"
     except Exception as e:
         return f"Failed to write file: {e}"
-    
+
+
+def append_file(path: str, content: str) -> str:
+    file = Path(path).expanduser()
+
+    try:
+        file.parent.mkdir(parents=True, exist_ok=True)
+        with file.open("a", encoding="utf-8") as f:
+            f.write(content)
+
+        return f"Content appended successfully: {file}"
+    except Exception as e:
+        return f"Failed to append content: {e}"

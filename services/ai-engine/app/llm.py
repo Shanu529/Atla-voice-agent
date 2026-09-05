@@ -213,6 +213,30 @@ tool_definitions = [
     }
 },
 
+{
+    "type": "function",
+    "function": {
+        "name": "append_file",
+        "description": "Append content to the end of an existing file.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "The path of the file."
+                },
+                "content": {
+                    "type": "string",
+                    "description": "The content to append."
+                }
+            },
+            "required": ["path", "content"]
+        }
+    }
+},
+
+
+
 ]
 
 
