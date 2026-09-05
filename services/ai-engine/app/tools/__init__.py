@@ -32,6 +32,7 @@ from app.tools.files import (
     create_file,
     read_file,
     get_special_folder,
+    write_file
 )
 
 
@@ -49,4 +50,5 @@ TOOLS = {
     "create_folder": create_folder,
     "read_file": read_file,
     "get_special_folder": get_special_folder,
+    "write_file": write_file,
 }

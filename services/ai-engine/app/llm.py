@@ -190,6 +190,29 @@ tool_definitions = [
     },
 },
 
+
+{
+    "type": "function",
+    "function": {
+        "name": "write_file",
+        "description": "Write text content to a file. Use this when the user asks to create or modify a file with specific content.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "The path of the file to write"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "The complete content to write into the file"
+                }
+            },
+            "required": ["path", "content"]
+        }
+    }
+},
+
 ]
 
 
@@ -207,7 +230,8 @@ def chat(message: str) -> str:
                 "Use open_application ONLY when the user explicitly asks "
                 "to open or launch an application.\n"
                 "Use filesystem tools when the user asks you to work with "
-                "files or folders.\n"
+                "files or folders. Use get_special_folder when the user "
+                "refers to common folders such as Desktop or Downloads.\n"
                 "You may use multiple tools when necessary.\n"
                 "Never claim an action succeeded unless the tool reports success."
             ),

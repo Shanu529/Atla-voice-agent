@@ -83,3 +83,16 @@ def get_special_folder(folder : str) -> str:
         return f"special folder does not exist: {path}"
 
     return str(path)
+
+
+def write_file(path: str, content: str) -> str:
+    file = Path(path).expanduser()
+
+    try:
+        file.parent.mkdir(parents=True, exist_ok=True)
+        file.write_text(content, encoding="utf-8")
+
+        return f"File written successfully: {file}"
+    except Exception as e:
+        return f"Failed to write file: {e}"
+    
