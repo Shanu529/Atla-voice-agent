@@ -1,16 +1,19 @@
-
-
-# pip install scipy
-
-from http import client
+import os
 
 import sounddevice as sd
 from scipy.io.wavfile import write
+from dotenv import load_dotenv
+from openai import OpenAI
 
+load_dotenv()
+
+client = OpenAI(
+    api_key=os.getenv("GROQ_API_KEY"),
+    base_url="https://api.groq.com/openai/v1",
+)
 
 SAMPLE_RATE = 16000
 RECORD_SECONDS = 5
-
 
 def record_audio(filename="input.wav"):
     print(" Speak now...")
