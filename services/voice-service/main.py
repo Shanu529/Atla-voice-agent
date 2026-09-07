@@ -9,9 +9,15 @@ def run_voice_assistant():
     while True:
         text = listen()
 
+        text = text.strip()
+
+        if not text:
+            print("⚠️ Nothing heard. Listening again...")
+            continue
+
         print(f" You said: {text}")
 
-        if text.lower().strip() in ["exit", "quit", "stop"]:
+        if text.lower() in ["exit", "quit", "stop"]:
             speak("Goodbye.")
             break
 
