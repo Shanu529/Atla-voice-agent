@@ -10,7 +10,7 @@ def run_voice_assistant():
         text = listen()
 
         text = text.strip()
-
+        
         if not text:
             print("⚠️ Nothing heard. Listening again...")
             continue
