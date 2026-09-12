@@ -21,6 +21,7 @@ from app.tools.files import (
 
 from app.tools.system import (
     get_system_info,
+    get_running_applications,
 )
 
 from app.tools.web import search_web
@@ -34,6 +35,7 @@ from app.tools.files import (
     get_special_folder,
     write_file,
     append_file,
+
 )
 
 
@@ -53,5 +55,6 @@ TOOLS = {
     "get_special_folder": get_special_folder,
     "write_file": write_file,
     "append_file": append_file,
-    
+    "get_running_applications": get_running_applications,
+
 }
