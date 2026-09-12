@@ -235,6 +235,19 @@ tool_definitions = [
     }
 },
 
+{
+    "type": "function",
+    "function": {
+        "name": "get_running_applications",
+        "description": "Get the applications and processes currently running on the Windows computer.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+        },
+    },
+},
+
 
 
 ]
