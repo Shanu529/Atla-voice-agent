@@ -24,3 +24,22 @@ def get_running_applications() -> str:
 
     except Exception as e:
         return f"Failed to get running applications: {e}"
+
+
+def close_application(application: str) -> str:
+    name = application.lower().strip()
+
+    try:
+        result = subprocess.run(
+            ["taskkill", "/IM", f"{name}.exe", "/F"],
+            capture_output=True,
+            text=True,
+        )
+
+        if result.returncode == 0:
+            return f"Closed {application}."
+
+        return f"Could not close {application}: {result.stderr.strip()}"
+
+    except Exception as e:
+        return f"Failed to close {application}: {e}"
