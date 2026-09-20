@@ -38,6 +38,13 @@ from app.tools.files import (
 
 )
 
+from .system import (
+    get_system_info,
+    get_running_applications,
+    close_application,
+)
+
+
 
 TOOLS = {
     "get_current_time": get_current_time,
@@ -56,5 +63,6 @@ TOOLS = {
     "write_file": write_file,
     "append_file": append_file,
     "get_running_applications": get_running_applications,
+    "close_application": close_application,
 
 }

@@ -248,6 +248,26 @@ tool_definitions = [
     },
 },
 
+{
+    "type": "function",
+    "function": {
+        "name": "close_application",
+        "description": "Close a running application on the Windows computer.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "application": {
+                    "type": "string",
+                    "description": "The application name, such as chrome, notepad, calculator, or code.",
+                },
+            },
+            "required": ["application"],
+        },
+    },
+},
+
+
+
 
 
 ]
